@@ -4,23 +4,45 @@ require_once 'config.php'; // Include the database configuration
 session_start(); // Start a session to store user data after login
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email']);
+    $email_or_username = trim($_POST['email_or_username']);
     $password = $_POST['password'];
 
-    if ($email && $password) {
-        // Check if the email exists
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
+    if ($email_or_username && $password) {
+        // Hardcoded admin credentials
+        $admin_username = 'saegisadmin';
+        $admin_password = '12345';
 
-        if ($user && password_verify($password, $user['password'])) {
-            // Password is correct, start a session
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
-            header("Location: dashboard.php"); // Redirect to dashboard (to be created later)
+        // Check if the credentials match the admin
+        if ($email_or_username === $admin_username && $password === $admin_password) {
+            // Admin login successful
+            $_SESSION['admin_id'] = 1; // Hardcoded admin ID
+            $_SESSION['admin_username'] = $admin_username;
+            header("Location: admin-dashboard.php");
             exit();
         } else {
-            echo "<script>alert('Invalid email or password');</script>";
+            // Check if the email exists in the users table
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->execute([$email_or_username]);
+            $user = $stmt->fetch();
+
+            if ($user) {
+                // Check the user's status
+                if ($user['status'] === 'pending') {
+                    echo "<script>alert('Your account is pending approval by the admin.');</script>";
+                } elseif ($user['status'] === 'rejected') {
+                    echo "<script>alert('Your account has been rejected by the admin.');</script>";
+                } elseif ($user['status'] === 'accepted' && password_verify($password, $user['password'])) {
+                    // Password is correct and user is accepted, start a session
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
+                    header("Location: dashboard.php");
+                    exit();
+                } else {
+                    echo "<script>alert('Invalid email or password');</script>";
+                }
+            } else {
+                echo "<script>alert('Invalid email or password');</script>";
+            }
         }
     } else {
         echo "<script>alert('Please fill all fields');</script>";
@@ -47,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-container">
             <h2>LOGIN</h2>
             <form action="login.php" method="POST">
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="email_or_username" placeholder="Email or Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <a href="forgot-password.php" class="link">Forgot Password?</a>
                 <button type="submit" class="btn">LOGIN</button>

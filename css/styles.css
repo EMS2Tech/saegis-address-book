@@ -7,11 +7,11 @@
 
 body {
     background: linear-gradient(180deg, #ffffff 40%, #0056b3 100%);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 .container {
@@ -22,12 +22,119 @@ body {
 }
 
 .header {
-    margin-bottom: 40px;
+    position: relative;
+    margin-bottom: 20px;
 }
 
 .logo {
     width: 150px;
     height: auto;
+}
+
+.header h2 {
+    font-size: 1.8rem;
+    color: #003087;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.header p {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.menu-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.menu-icon img {
+    width: 30px;
+    height: auto;
+}
+
+.view-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.toggle-btn {
+    background-color: #003087;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 20px;
+    margin: 0 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background-color: #0056b3;
+}
+
+.toggle-btn.active {
+    background-color: #0056b3;
+    font-weight: bold;
+}
+
+.grid-view {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.card {
+    background-color: #003087;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 40px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.list-item {
+    background-color: #003087;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+}
+
+.list-item img {
+    width: 30px;
+    height: auto;
+    margin-right: 15px;
+}
+
+.list-item p {
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 .content h1 {
@@ -50,25 +157,82 @@ body {
     margin-bottom: 30px;
 }
 
+.form-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    font-size: 1.8rem;
+    color: #003087;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-container p {
+    color: #ffffff;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    color: #ffffff;
+}
+
+.checkbox-container input {
+    margin-right: 10px;
+}
+
 .btn {
     display: inline-block;
     background-color: #003087;
     color: #ffffff;
     padding: 15px 30px;
     text-decoration: none;
+    border: none;
     border-radius: 25px;
     font-size: 1.1rem;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    width: 100%;
+    cursor: pointer;
 }
 
 .btn:hover {
     background-color: #0056b3;
 }
 
+.link {
+    color: #ffffff;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    display: block;
+    margin: 10px 0;
+}
+
+.link:hover {
+    color: #e0e0e0;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-    .content h1 {
+    .content h1, .form-container h2, .header h2 {
         font-size: 2rem;
     }
 
@@ -76,13 +240,21 @@ body {
         font-size: 1.5rem;
     }
 
-    .website {
+    .website, .form-container p, .header p {
         font-size: 1rem;
     }
 
     .btn {
         padding: 12px 25px;
         font-size: 1rem;
+    }
+
+    .grid-view {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card p, .list-item p {
+        font-size: 0.9rem;
     }
 }
 
@@ -91,7 +263,7 @@ body {
         width: 120px;
     }
 
-    .content h1 {
+    .content h1, .form-container h2, .header h2 {
         font-size: 1.8rem;
     }
 
@@ -103,4 +275,91 @@ body {
         padding: 10px 20px;
         font-size: 0.9rem;
     }
+
+    .grid-view {
+        grid-template-columns: 1fr;
+    }
+
+    .card img, .list-item img {
+        width: 30px;
+    }
+
+    .card p, .list-item p {
+        font-size: 0.8rem;
+    }
+
+    .toggle-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.user-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: left;
+    color: #ffffff;
+}
+
+.user-details p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.user-details p strong {
+    color: #e0e0e0;
+}
+
+.user-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.accept-btn {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+.accept-btn:hover {
+    background-color: #218838;
+}
+
+.reject-btn {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+.reject-btn:hover {
+    background-color: #c82333;
 }
